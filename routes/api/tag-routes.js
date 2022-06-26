@@ -26,16 +26,30 @@ router.get('/:id', async (req, res) => {
   res.json(product);
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   // create a new tag
+  const newTag = await Tag.create(req.body);
+  res.json(newTag);
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   // update a tag's name by its `id` value
+  const updateTag = await Tag._update(req, body, {
+    where: {
+      id: req.params.id,  
+    }
+  })
+  res.json(updateTag);
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   // delete on tag by its `id` value
+await Tag.destroy({
+  where: {
+    id: req.params.id,
+  }
+})
+res.json({ message: 'Delete' });
 });
 
 module.exports = router;
